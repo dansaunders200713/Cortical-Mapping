@@ -5,7 +5,7 @@ global sequences window_pointer
 % characters to type on either the standard keyboard or the jumbled keyboard, 
 % depeding on the value of session_number
 
-while(KbCheck);end % clear keyboard buffer
+while(KbCheck); end % clear keyboard buffer
 
 Screen('FillRect', window_pointer); % clear Screen
 
@@ -13,33 +13,32 @@ Screen('FillRect', window_pointer); % clear Screen
 % Janna to draft these up.
 
 % variables to keep track of
-time_per_trial = zeros(1, sequences);
-num_incorrect_keys = zeros(1, sequences);
+trial_times = zeros(1, length(sequences));
+trial_incorrect_keys = zeros(1, length(sequences));
 
 % Begin experiment
 
 for n = 1:length(sequences)
+    % start timer
+    start_time = clock;
     
-    while(KbCheck); end % clear keyboard buffer
-    Screen('FillRect', window_pointer); % clear Screen  
+    % run trial
+    trial_incorrect_keys(n) = trial(sequences{n});
     
-    sequence = sequences{n};
-
-    textSize = 75; % make the text BIG!
-    Screen('TextSize', window_pointer, textSize);
-    DrawFormattedText(window_pointer, sequence, 'center', 'center', black);
-    Screen('Flip', window_pointer, 0, 2);
+    % end timer
+    end_time = clock;
     
-    sequence_correct = false;
-    while (sequence_correct == false)
-        string = GetEchoString(window_pointer, '>', 875, 675, black, [255 255 255]);
-        if strcmp(string, sequence)
-            sequence_correct = true;
-        end
-    end
+    % set trial execution time
+    trial_times(n) = etime(end_time, start_time);
     
+    % let the participant breathe
     pause(2);
 end
+
+Screen('FillRect', window_pointer); % clear Screen
+Screen('Flip', window_pointer, 0, 2);
+
+
 
 
 

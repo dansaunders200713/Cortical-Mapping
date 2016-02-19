@@ -1,11 +1,11 @@
-global subject_code task sequences window_pointer
+global subject_code task sequences window_pointer white red black blue
 
 %================ Get info =================
 % get the subject/session info
 subject_code = input('What is the subject code (3 letter string, please)?   ', 's');
 task = input('Is this (1) encoding, or (2) recall?  ');
 
-cd c:\Users\CognacLab\Documents\MATLAB\cortical_mapping;
+cd '/home/dan/MATLAB/Cortical Mapping';
 
 % here, we set up some psychophysics toolbox objects for 
 % drawing text to the screen.
@@ -16,7 +16,7 @@ try
 
     window_pointer = PsychImaging('OpenWindow', screenNumber);
 
-    bgColor = WhiteIndex(window_pointer);
+    white = WhiteIndex(window_pointer);
     red = [255 0 0 255];
     black = BlackIndex(window_pointer);
     blue = [0 0 255 255];
