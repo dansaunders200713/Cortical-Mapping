@@ -78,3 +78,5 @@ elseif task == 2   % recall
 end
 
 fclose('all');
+Screen('CloseAll');
+clear;

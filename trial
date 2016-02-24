@@ -1,0 +1,26 @@
+global window_pointer 
+
+function [ num_incorrect_keys ] = trial( sequence )
+    while(KbCheck); end % clear keyboard buffer
+    Screen('FillRect', window_pointer); % clear Screen  
+    
+    num_keys = 0;
+
+    textSize = 75; % make the text BIG!
+    Screen('TextSize', window_pointer, textSize);
+    DrawFormattedText(window_pointer, sequence, 'center', 'center', black);
+    Screen('Flip', window_pointer, 0, 2);
+    
+    sequence_correct = false;
+    while (sequence_correct == false)
+        string = GetEchoString(window_pointer, '>', 875, 675, black, [255 255 255]);
+        if strcmp(string, sequence)
+            sequence_correct = true;
+        end
+    end
+    
+    num_incorrect_keys = num_keys - length(sequence);
+    
+    pause(2);
+end
+
