@@ -38,6 +38,8 @@ end
 Screen('FillRect', window_pointer); % clear Screen
 Screen('Flip', window_pointer, 0, 2);
 
+trial_incorrect_keys
+
 
 
 
