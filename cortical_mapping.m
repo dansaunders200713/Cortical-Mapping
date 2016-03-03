@@ -27,8 +27,8 @@ try
     Screen('Flip', window_pointer);
     
 catch
-    %this "catch" section executes in case of an error in the "try" section
-    %above.  Importantly, it closes the onscreen window if its open.
+    % this "catch" section executes in case of an error in the "try" section
+    % above. Importantly, it closes the onscreen window if it's open.
 
     RestoreCluts;
     Screen('CloseAll');

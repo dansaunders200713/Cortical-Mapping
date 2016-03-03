@@ -1,4 +1,4 @@
-function [ num_incorrect_keys ] = trial(sequence)
+function [ trial_incorrect_keys, trial_incorrect_sequences ] = trial(sequence)
 
     global window_pointer red blue black
     
@@ -10,17 +10,19 @@ function [ num_incorrect_keys ] = trial(sequence)
     textSize = 75; % make the text BIG!
     Screen('TextSize', window_pointer, textSize);
     
-    sequence_correct = false;
+    sequence_correct = false; 
+    trial_incorrect_sequences = 0; % the number of times the user pressed enter after entering an incorrect sequence
     
     while (sequence_correct == false)
         DrawFormattedText(window_pointer, sequence, 'center', 'center', black);
-        [string, fullstring] = GetEchoString2(window_pointer, '>', 700, 675, black, [255 255 255]);
+        [string, fullstring] = GetEchoString2(window_pointer, '>', 700, 675, black, [255 255 255], sequence);
         keys_pressed = keys_pressed + length(strrep(fullstring, '?', ''));
         if strcmp(string, sequence)
             sequence_correct = true;
         else
             Screen('FillRect', window_pointer); % clear Screen  
             Screen('DrawText', window_pointer, 'TRY AGAIN', 100, 200, red);
+            trial_incorrect_sequences = trial_incorrect_sequences + 1;
         end
     end
     
@@ -28,5 +30,5 @@ function [ num_incorrect_keys ] = trial(sequence)
     Screen('DrawText', window_pointer, 'CORRECT', 100, 200, blue); 
     Screen('Flip', window_pointer, 0, 2);
     
-    num_incorrect_keys = keys_pressed - length(sequence);
+    trial_incorrect_keys = keys_pressed - length(sequence);
 end

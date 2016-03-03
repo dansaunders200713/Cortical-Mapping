@@ -1,4 +1,4 @@
-function [string, fullstring] = GetEchoString2(windowPtr, msg, x, y, textColor, bgColor, useKbCheck, varargin)
+function [string, fullstring] = GetEchoString2(window_pointer, msg, x, y, textColor, bgColor, sequence)
 % [string,terminatorChar] = GetEchoString(window,msg,x,y,[textColor],[bgColor],[useKbCheck=0],[deviceIndex],[untilTime=inf],[KbCheck args...]);
 % 
 % Get a string typed at the keyboard. Entry is terminated by <return> or
@@ -46,9 +46,7 @@ function [string, fullstring] = GetEchoString2(windowPtr, msg, x, y, textColor, 
 % 02/10/16  mk        Adapt 'TextAlphaBlending' setup for cross-platform FTGL plugin.
 % 02/15/16  dgp       Accept ESC for termination, return terminatorChar.
 
-if nargin < 7
-    useKbCheck = [];
-end
+useKbCheck = [];
 
 if isempty(useKbCheck)
     useKbCheck = 0;
@@ -82,8 +80,8 @@ fullstring = '';
 output = [msg, ' ', string];
 
 % Write the initial message:
-Screen('DrawText', windowPtr, output, x, y, textColor, bgColor);
-Screen('Flip', windowPtr, 0, 1);
+DrawFormattedText(window_pointer, output, 'center', y, textColor);
+Screen('Flip', window_pointer, 0, 1);
 
 while true
     if useKbCheck
@@ -108,9 +106,9 @@ while true
             if ~isempty(string)
                 % Redraw text string, but with textColor == bgColor, so
                 % that the old string gets completely erased:
-                oldTextColor = Screen('TextColor', windowPtr);
-                Screen('DrawText', windowPtr, output, x, y, bgColor, bgColor);
-                Screen('TextColor', windowPtr, oldTextColor);
+                oldTextColor = Screen('TextColor', window_pointer);
+                DrawFormattedText(window_pointer, output, 'center', y, bgColor);
+                Screen('TextColor', window_pointer, oldTextColor);
 
                 % Remove last character from string:
                 fullstring = [fullstring, '?'];
@@ -123,8 +121,10 @@ while true
     end
 
     output = [msg, ' ', string];
-    Screen('DrawText', windowPtr, output, x, y, textColor, bgColor);
-    Screen('Flip', windowPtr, 0, 1);
+    Screen('FillRect', window_pointer); % clear Screen
+    DrawFormattedText(window_pointer, sequence, 'center', 'center', textColor);    
+    DrawFormattedText(window_pointer, output, 'center', y, textColor);
+    Screen('Flip', window_pointer, 0, 1);
 end
 
 % Restore text alpha blending state if it was altered:

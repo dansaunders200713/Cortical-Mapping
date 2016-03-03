@@ -15,6 +15,7 @@ Screen('FillRect', window_pointer); % clear Screen
 % variables to keep track of
 trial_times = zeros(1, length(sequences));
 trial_incorrect_keys = zeros(1, length(sequences));
+trial_incorrect_sequences = zeros(1, length(sequences));
 
 % Begin experiment
 
@@ -23,7 +24,7 @@ for n = 1:length(sequences)
     start_time = clock;
     
     % run trial
-    trial_incorrect_keys(n) = trial(sequences{n});
+    [ trial_incorrect_keys(n), trial_incorrect_sequences(n) ] = trial(sequences{n});
     
     % end timer
     end_time = clock;
@@ -38,9 +39,16 @@ end
 Screen('FillRect', window_pointer); % clear Screen
 Screen('Flip', window_pointer, 0, 2);
 
-trial_incorrect_keys
+% filenames to save the data to
+encode_filename = ['encode' subject_code '.txt'];
 
+% write the info to file
+fid = fopen(encode_filename, 'w');
 
+for i = 1:length(sequences)
+    fprintf(fid, '%s\t %d\t %d\t %d\n', sequences{i}, trial_incorrect_keys(i), trial_times(i), trial_incorrect_sequences(i));
+end
 
+fclose(fid);
 
 
