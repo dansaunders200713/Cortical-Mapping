@@ -1,13 +1,13 @@
-function [ trial_incorrect_keys, trial_incorrect_sequences ] = trial(sequence)
+function [ trial_incorrect_keys, trial_incorrect_sequences ] = standard_keyboard_trial(sequence)
 
     global window_pointer red blue black
     
-    while(KbCheck); end % clear keyboard buffer
+    while(KbCheck); end % clear keyboard bufferend
     Screen('FillRect', window_pointer); % clear Screen  
     
     keys_pressed = 0;
 
-    textSize = 75; % make the text BIG!
+    textSize = 75; % make the text big
     Screen('TextSize', window_pointer, textSize);
     
     sequence_correct = false; 

@@ -1,4 +1,4 @@
-global subject_code task sequences window_pointer white red black blue
+global subject_code task sequences window_pointer white red black blue resolution
 
 %================ Get info =================
 % get the subject/session info
@@ -15,7 +15,9 @@ try
     screenNumber = max(screens);
 
     window_pointer = PsychImaging('OpenWindow', screenNumber);
-
+    
+    resolution = Screen('Resolution', window_pointer);
+    
     white = WhiteIndex(window_pointer);
     red = [255 0 0 255];
     black = BlackIndex(window_pointer);
@@ -37,29 +39,22 @@ catch
 
 end
 
-% randomize the presentation of the sequences of words / characters lists
-assign_filename = ['assign' subject_code '.txt'];
 if task == 1
-    sequence_index = randsample(2,1);
-    save assign_filename sequence_index
+    sequence_index = 1;
 else
-    load assign_filename sequence_index
-    if sequence_index == 1
-        sequence_index = 2;
-    elseif sequence_index == 2
-        sequence_index = 1;
-    end
+    sequence_index = 2;
 end
 
 sequences = sequence_list(sequence_index);
 
 % STARTING THE EXPERIMENT
 
-while(KbCheck); end %Wait for all keys to be released (clear keyboard buffer)
+while(KbCheck); end % Wait for all keys to be released (clear keyboard buffer)
 
+Screen('TextSize', window_pointer, 75);
+DrawFormattedText(window_pointer, 'Welcome to the Cortical Mapping Experiment!', 'center', 'center', black); 
 Screen('TextSize', window_pointer, 30);
-Screen('DrawText', window_pointer, 'Welcome to the my experiment!', 100, 200, black); 
-Screen('DrawText', window_pointer, 'For instructions, please press a key.', 80, 400, black);
+DrawFormattedText(window_pointer, 'For instructions, please press any key.', 'center', (resolution.height / 2) + 100, black);
 Screen('Flip', window_pointer);
 Screen('TextSize', window_pointer, 26);
 
